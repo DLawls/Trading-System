@@ -1,0 +1,58 @@
+# Trading System Configuration
+
+# Alpaca API Configuration
+alpaca:
+  api_key: ${ALPACA_API_KEY}
+  api_secret: ${ALPACA_API_SECRET}
+  base_url: https://paper-api.alpaca.markets  # Use paper trading by default
+  data_url: https://data.alpaca.markets
+
+# Data Ingestion Settings
+data_ingestion:
+  market_data:
+    symbols: ["AAPL", "MSFT", "GOOGL", "AMZN", "META"]  # Example symbols
+    intervals: ["1m", "5m", "15m", "1h"]
+    max_retries: 3
+    retry_delay: 5  # seconds
+  
+  news:
+    sources: ["newsapi", "rss"]
+    update_interval: 300  # 5 minutes
+    max_articles: 1000
+
+  sentiment:
+    model: "distilbert-base-uncased-finetuned-sst-2-english"
+    batch_size: 32
+    update_interval: 600  # 10 minutes
+
+# ML Model Settings
+ml:
+  model_dir: "models/"
+  feature_window: 100  # Number of time steps for feature calculation
+  prediction_horizon: 5  # Number of time steps to predict ahead
+  confidence_threshold: 0.7
+  ensemble:
+    enabled: true
+    weights: [0.4, 0.3, 0.3]  # Weights for different models
+
+# Execution Settings
+execution:
+  max_position_size: 0.1  # Maximum position size as fraction of portfolio
+  stop_loss: 0.02  # 2% stop loss
+  take_profit: 0.04  # 4% take profit
+  max_slippage: 0.001  # 0.1% maximum allowed slippage
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  file: "logs/trading_system.log"
+  max_size: 10485760  # 10MB
+  backup_count: 5
+
+# Monitoring
+monitoring:
+  metrics_port: 8000
+  dashboard_port: 8050
+  alert_thresholds:
+    drawdown: 0.05  # 5% drawdown triggers alert
+    latency: 100  # 100ms latency threshold 

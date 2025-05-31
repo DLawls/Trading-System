@@ -1,0 +1,7 @@
+id,description,frequency
+FEDFUNDS,Effective Federal Funds Rate,daily
+CPIAUCSL,Consumer Price Index (All Urban Consumers),monthly
+UNRATE,Unemployment Rate,monthly
+GS10,10-Year Treasury Constant Maturity Rate,daily
+GDPC1,Real Gross Domestic Product,quarterly
+UMCSENT,University of Michigan: Consumer Sentiment,monthly
