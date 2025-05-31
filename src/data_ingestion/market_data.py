@@ -11,8 +11,7 @@ import pandas as pd
 from alpaca.data.historical import StockHistoricalDataClient
 from alpaca.data.requests import StockBarsRequest
 from alpaca.data.timeframe import TimeFrame
-
-logger = logging.getLogger(__name__)
+from loguru import logger
 
 class MarketDataIngestor:
     def __init__(self, api_key: str, api_secret: str, base_url: str):
@@ -25,7 +24,7 @@ class MarketDataIngestor:
             base_url: Alpaca API base URL
         """
         self.client = StockHistoricalDataClient(api_key, api_secret)
-        self.base_url = base_url
+        self.base_url = base_url.rstrip('/v2')  # Remove /v2 as it's handled by the client
         
     async def get_historical_bars(
         self,
@@ -54,7 +53,8 @@ class MarketDataIngestor:
                 symbol_or_symbols=symbols,
                 timeframe=timeframe,
                 start=start,
-                end=end
+                end=end,
+                feed='iex'  # Use free IEX data feed
             )
             
             bars = self.client.get_stock_bars(request)

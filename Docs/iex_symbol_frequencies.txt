@@ -1,0 +1,3 @@
+Symbols with IEX daily bars: 0
+
+Symbols with IEX minute bars: 0

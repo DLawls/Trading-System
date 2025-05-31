@@ -1,6 +1,28 @@
 # Event-Driven ML Trading System
 
-A high-performance, event-driven trading platform focused on integrating machine learning with fast execution through Alpaca's trading API.
+## Current Status
+
+- **Market Data:**
+  - Alpaca free data (IEX) is very limited in symbol and timeframe coverage, but daily bars for some large caps (e.g., AAPL) are accessible.
+  - SIP (full US market) data requires a paid Alpaca subscription.
+  - Yahoo Finance and other free APIs are being considered for broader price data access.
+  - **To Do:** Research and evaluate the best free price data APIs for broader symbol and timeframe coverage (e.g., Yahoo Finance, Alpha Vantage, Twelve Data, Finnhub, Polygon.io, Stooq, Quandl, etc.).
+  - Price data approach is under review; users may need to choose or combine data sources.
+
+- **Modules Implemented:**
+  - Data ingestion (Alpaca, NewsAPI)
+  - Sentiment analysis (NLP)
+
+- **Next Steps:**
+  - Continue with event detection, feature engineering, and ML modules.
+  - Integrate alternative data sources as needed.
+
+- **Version Control:**
+  - Project is version-controlled on GitHub. Commit and push regularly to save progress.
+
+## Usage Notes
+- For reliable price data, consider your data source and subscription level.
+- The system is modular and can be extended with new data sources or analytics modules.
 
 ## Features
 
