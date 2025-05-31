@@ -6,13 +6,13 @@ A comprehensive step-by-step checklist to go from development to deployment and 
 
 ## 🧰 Phase 0: Environment & Tooling Setup
 
-- [ ] Set up project folder structure (src/, data/, models/, etc.)
-- [ ] Initialize Git repository and GitHub remote
-- [ ] Configure Poetry for dependency management
+- [x] Set up project folder structure (src/, data/, models/, etc.)
+- [x] Initialize Git repository and GitHub remote
+- [x] Configure Poetry for dependency management
 - [ ] Set up Dockerfile and docker-compose for local development
-- [ ] Define `.env` or secrets manager for Alpaca keys
-- [ ] Create logging configuration and base logger
-- [ ] Create base config file (`config.yaml` or `.toml`)
+- [x] Define `.env` or secrets manager for Alpaca keys
+- [x] Create logging configuration and base logger
+- [x] Create base config file (`config.yaml` or `.toml`)
 
 ---
 
