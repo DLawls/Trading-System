@@ -27,33 +27,33 @@ A comprehensive step-by-step checklist to go from development to deployment and 
 
 ---
 
-## 🧠 Phase 2: Event Detection
+## 🧠 Phase 2: Event Detection ✅ **100% COMPLETE**
 
-- [x] Build rule-based or keyword-based `EventClassifier`
-- [x] Implement `ImpactScorer` with simple heuristics
-- [x] Develop `EntityLinker` using basic NER
-- [x] Save detected events in `EventStore` database
-- [x] Run historical detection on ingested news for backtest prep
-
----
-
-## ⚙️ Phase 3: Feature Engineering
-
-- [ ] Implement `TimeseriesFeatures` (SMA, volatility, volume)
-- [ ] Implement `EventFeatures` (time-to-event, counts)
-- [ ] Build `SentimentFeatures` (rolling, decay-weighted)
-- [ ] Add `MarketContextFeatures` (macro, crypto-specific)
-- [ ] Generate and store feature matrix
+- [x] Build rule-based or keyword-based `EventClassifier` ✅
+- [x] Implement `ImpactScorer` with simple heuristics ✅
+- [x] Develop `EntityLinker` using basic NER ✅
+- [x] Save detected events in `EventStore` database ✅
+- [x] Run historical detection on ingested news for backtest prep ✅
 
 ---
 
-## 🤖 Phase 4: ML Modeling
+## ⚙️ Phase 3: Feature Engineering ✅ **100% COMPLETE**
 
-- [ ] Define target label(s) (e.g. 1h forward return, binary jump)
-- [ ] Implement `ModelTrainer` and train baseline model
-- [ ] Save models to `ModelStore` with metadata
-- [ ] Implement `ModelPredictor` for real-time inference
-- [ ] Add `EnsembleManager` for model stacking/blending
+- [x] Implement `TimeseriesFeatures` (SMA, volatility, volume) ✅
+- [x] Implement `EventFeatures` (time-to-event, counts) ✅
+- [x] Build `SentimentFeatures` (rolling, decay-weighted) ✅
+- [x] Add `MarketContextFeatures` (macro, crypto-specific) ✅
+- [x] Generate and store feature matrix ✅
+
+---
+
+## 🤖 Phase 4: ML Modeling ✅ **100% COMPLETE**
+
+- [x] Define target label(s) (e.g. 1h forward return, binary jump) ✅
+- [x] Implement `ModelTrainer` and train baseline model ✅
+- [x] Save models to `ModelStore` with metadata ✅
+- [x] Implement `ModelPredictor` for real-time inference ✅
+- [x] Add `EnsembleManager` for model stacking/blending ✅
 
 ---
 
