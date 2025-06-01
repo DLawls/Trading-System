@@ -2,7 +2,7 @@
 Simple EntityLinker test without Unicode characters
 """
 
-from event_detection.entity_linker import EntityLinker, EntityType
+from src.event_detection.entity_linker import EntityLinker, EntityType
 
 def test_entity_linker_simple():
     """Test EntityLinker with simple text examples"""

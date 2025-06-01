@@ -1,126 +1,94 @@
 """
-Simple, fast test for Feature Engineering pipeline
+Simple and fast test for FeatureEngineer
 """
 
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
-from src.feature_engineering.feature_store import FeatureStore
-from src.feature_engineering.timeseries_features import TimeseriesFeatures
-from src.feature_engineering.event_features import EventFeatures
-from src.feature_engineering.sentiment_features import SentimentFeatures
-from src.feature_engineering.market_context_features import MarketContextFeatures
 
+from src.feature_engineering.main import FeatureEngineer, FeatureConfig
 
-def test_feature_engineering_simple():
-    """Simple, fast test of feature engineering components."""
+def create_simple_market_data():
+    """Create small amount of market data for fast testing"""
     
-    print("🔧 Simple Feature Engineering Test...")
+    # Just 5 days of daily data (much smaller)
+    dates = pd.date_range(start='2023-01-01', periods=5, freq='1D')
     
-    # Create minimal sample data (30 rows for speed)
-    sample_data = create_minimal_market_data()
-    print(f"📈 Created minimal sample data: {len(sample_data)} records")
+    market_data = {}
     
-    # Test 1: Basic Timeseries Features
-    print("\n🔬 Testing TimeseriesFeatures...")
-    ts_generator = TimeseriesFeatures()
+    for symbol in ['AAPL']:  # Just one symbol
+        # Simple price data
+        prices = [100, 102, 98, 101, 105]  # Simple price sequence
+        
+        data = []
+        for i, (timestamp, price) in enumerate(zip(dates, prices)):
+            data.append({
+                'timestamp': timestamp,
+                'open': price * 0.99,
+                'high': price * 1.02,
+                'low': price * 0.98,
+                'close': price,
+                'volume': 1000000
+            })
+        
+        df = pd.DataFrame(data)
+        df.set_index('timestamp', inplace=True)
+        
+        # Add required columns
+        df['price_change'] = df['close'].diff()
+        df['price_change_pct'] = df['close'].pct_change()
+        
+        market_data[symbol] = df
     
-    # Use minimal window sizes for speed
-    ts_features = ts_generator.generate_features(sample_data.copy(), 'TSLA')
-    new_features = len(ts_features.columns) - len(sample_data.columns)
-    print(f"   ✅ Generated {new_features} timeseries features")
+    return market_data
+
+def test_feature_engineer_simple():
+    """Simple test of FeatureEngineer"""
     
-    # Test 2: Basic Market Context Features
-    print("\n🔬 Testing MarketContextFeatures...")
-    context_generator = MarketContextFeatures()
-    context_features = context_generator.generate_features(sample_data.copy(), 'TSLA')
-    new_features = len(context_features.columns) - len(sample_data.columns)
-    print(f"   ✅ Generated {new_features} market context features")
+    print("Testing FeatureEngineer (Simple)...")
     
-    # Test 3: Quick FeatureStore test
-    print("\n🔬 Testing FeatureStore...")
-    feature_store = FeatureStore()
+    # Create minimal data
+    market_data = create_simple_market_data()
+    print(f"  Market data: {len(market_data)} symbols, {len(market_data['AAPL'])} records each")
     
-    # Generate features with minimal data
-    complete_features = feature_store.generate_complete_features(
-        data=sample_data.copy(),
-        ticker='TSLA',
-        use_cache=False,
-        include_events=False,  # Skip events for speed
-        include_sentiment=False  # Skip sentiment for speed
+    # Test with only timeseries features (fastest)
+    config = FeatureConfig(
+        enable_timeseries_features=True,
+        enable_event_features=False,  # Disable slow features
+        enable_sentiment_features=False,
+        enable_market_context_features=False,
+        rolling_windows=[2, 3],  # Small windows
+        max_features=10  # Limit features
     )
     
-    total_features = len(complete_features.columns) - len(sample_data.columns)
-    print(f"   ✅ Generated {total_features} total features")
-    print(f"   📊 Final dataset shape: {complete_features.shape}")
+    # Initialize FeatureEngineer
+    feature_engineer = FeatureEngineer(config=config)
     
-    # Test 4: Data Quality Check
-    print("\n🔍 Basic Data Quality Check...")
+    # Generate features
+    print("  Generating timeseries features...")
+    feature_data = feature_engineer.generate_features(
+        market_data=market_data,
+        symbols=['AAPL']
+    )
     
-    # Check for NaN values
-    nan_count = complete_features.isnull().sum().sum()
-    print(f"   📊 Total NaN values: {nan_count}")
-    
-    # Check for infinite values
-    inf_count = np.isinf(complete_features.select_dtypes(include=[np.number])).sum().sum()
-    print(f"   📊 Total infinite values: {inf_count}")
-    
-    # Show sample feature names
-    feature_cols = [col for col in complete_features.columns if col not in sample_data.columns]
-    print(f"   🔧 Sample features: {feature_cols[:5]}")
-    
-    print(f"\n✅ Simple Feature Engineering Test Complete!")
-    print(f"   📊 Original columns: {len(sample_data.columns)}")
-    print(f"   🔧 New features: {total_features}")
-    print(f"   📈 Total columns: {len(complete_features.columns)}")
-    
-    return complete_features
-
-
-def create_minimal_market_data() -> pd.DataFrame:
-    """Create minimal OHLCV data for fast testing"""
-    
-    # Use 30 days instead of 10 for better feature generation
-    dates = pd.date_range(start='2024-01-01', periods=30, freq='D')
-    
-    np.random.seed(42)  # For reproducibility
-    base_price = 200.0
-    data = []
-    
-    for i, date in enumerate(dates):
-        # Add more realistic price movement
-        price_change = np.random.normal(0, 0.02)  # 2% volatility
-        current_price = base_price * (1 + price_change)
+    if 'AAPL' in feature_data:
+        df = feature_data['AAPL']
+        feature_cols = [col for col in df.columns if col not in ['open', 'high', 'low', 'close', 'volume', 'symbol']]
+        print(f"  Generated {len(feature_cols)} features: {feature_cols[:5]}")
+        print(f"  Data shape: {df.shape}")
         
-        # More realistic OHLCV with some variation
-        high_mult = 1 + abs(np.random.normal(0, 0.01))
-        low_mult = 1 - abs(np.random.normal(0, 0.01))
-        
-        high = current_price * high_mult
-        low = current_price * low_mult
-        open_price = low + (high - low) * np.random.random()
-        close = low + (high - low) * np.random.random()
-        volume = int(np.random.uniform(500000, 2000000))
-        
-        data.append({
-            'timestamp': date,
-            'open': open_price,
-            'high': high,
-            'low': low,
-            'close': close,
-            'volume': volume
-        })
-        
-        base_price = close
+        # Show sample
+        print("\n  Sample data:")
+        print(df[['close', 'price_change_pct'] + feature_cols[:3]].round(4))
     
-    df = pd.DataFrame(data)
-    df = df.set_index('timestamp')
+    # Test feature summary
+    summary = feature_engineer.get_feature_summary()
+    print(f"\n  Feature summary:")
+    print(f"    Total features: {summary['total_features']}")
+    print(f"    Categories: {summary['feature_categories']}")
     
-    # Add simple price change for targets
-    df['price_change_pct'] = df['close'].pct_change()
-    
-    return df
-
+    print("\n  FeatureEngineer simple test completed successfully!")
+    return True
 
 if __name__ == "__main__":
-    test_feature_engineering_simple() 
+    test_feature_engineer_simple() 
