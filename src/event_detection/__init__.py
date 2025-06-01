@@ -7,4 +7,5 @@ trading-relevant events from news and market data.
 
 from .event_classifier import EventClassifier
 from .impact_scorer import ImpactScorer
+from .entity_linker import EntityLinker
 # from .entity_linker import EntityLinker  # Coming next 

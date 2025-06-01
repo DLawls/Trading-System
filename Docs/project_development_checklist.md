@@ -31,7 +31,7 @@ A comprehensive step-by-step checklist to go from development to deployment and 
 
 - [x] Build rule-based or keyword-based `EventClassifier`
 - [x] Implement `ImpactScorer` with simple heuristics
-- [ ] Develop `EntityLinker` using basic NER
+- [x] Develop `EntityLinker` using basic NER
 - [ ] Save detected events in `EventStore` database
 - [ ] Run historical detection on ingested news for backtest prep
 
