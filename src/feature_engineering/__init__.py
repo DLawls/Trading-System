@@ -9,4 +9,5 @@ from .timeseries_features import TimeseriesFeatures
 from .event_features import EventFeatures  
 from .sentiment_features import SentimentFeatures
 from .market_context_features import MarketContextFeatures
-from .feature_store import FeatureStore 
+from .feature_store import FeatureStore
+from .main import FeatureEngineer, FeatureConfig 
