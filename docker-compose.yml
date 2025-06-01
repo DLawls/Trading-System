@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  trading-system:
+    build: .
+    container_name: trading-system-app
+    restart: unless-stopped
+    environment:
+      - PYTHONPATH=/app
+    env_file:
+      - .env
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+      - ./config:/app/config
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+    networks:
+      - trading-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: trading-system-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - trading-network
+
+  # Optional: Database for storing events and features
+  postgres:
+    image: postgres:15-alpine
+    container_name: trading-system-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: trading_system
+      POSTGRES_USER: trader
+      POSTGRES_PASSWORD: secure_password_123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - trading-network
+
+volumes:
+  redis_data:
+  postgres_data:
+
+networks:
+  trading-network:
+    driver: bridge 

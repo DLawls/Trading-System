@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  trading-system:
+    build: .
+    container_name: trading-system-dev
+    restart: unless-stopped
+    environment:
+      - PYTHONPATH=/app
+      - ENVIRONMENT=development
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+      - /app/.venv  # Exclude virtual env from volume mount
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+    networks:
+      - trading-network
+    # Override the default command for development
+    command: python -m src.test_data_ingestion
+
+  redis:
+    image: redis:7-alpine
+    container_name: trading-system-redis-dev
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    networks:
+      - trading-network
+
+networks:
+  trading-network:
+    driver: bridge 

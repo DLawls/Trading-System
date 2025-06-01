@@ -9,7 +9,7 @@ A comprehensive step-by-step checklist to go from development to deployment and 
 - [x] Set up project folder structure (src/, data/, models/, etc.)
 - [x] Initialize Git repository and GitHub remote
 - [x] Configure Poetry for dependency management
-- [ ] Set up Dockerfile and docker-compose for local development
+- [x] Set up Dockerfile and docker-compose for local development
 - [x] Define `.env` or secrets manager for Alpaca keys
 - [x] Create logging configuration and base logger
 - [x] Create base config file (`config.yaml` or `.toml`)
@@ -18,12 +18,12 @@ A comprehensive step-by-step checklist to go from development to deployment and 
 
 ## 📥 Phase 1: Data Ingestion
 
-- [ ] Implement `MarketDataIngestor` for Alpaca OHLCV
-- [ ] Implement `NewsIngestor` (RSS or NewsAPI)
-- [ ] Implement `SentimentIngestor` (basic NLP sentiment pipeline)
-- [ ] Implement `EventScheduler` for earnings/macro/token unlocks
-- [ ] Schedule ingestion jobs (cron/APScheduler)
-- [ ] Log ingestion success/failure
+- [x] Implement `MarketDataIngestor` for Alpaca OHLCV
+- [x] Implement `NewsIngestor` (RSS or NewsAPI)
+- [x] Implement `SentimentIngestor` (basic NLP sentiment pipeline)
+- [x] Implement `EventScheduler` for earnings/macro/token unlocks
+- [x] Schedule ingestion jobs (cron/APScheduler)
+- [x] Log ingestion success/failure
 
 ---
 

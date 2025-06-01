@@ -17,6 +17,7 @@ from alpaca.data.timeframe import TimeFrame
 from .market_data import MarketDataIngestor
 from .news import NewsIngestor
 from .sentiment import SentimentAnalyzer
+from .events import EventScheduler
 
 class DataIngestionManager:
     def __init__(
@@ -50,13 +51,15 @@ class DataIngestionManager:
         )
         self.news = NewsIngestor(api_key=news_api_key)
         self.sentiment = SentimentAnalyzer()
+        self.events = EventScheduler()
         
         # Initialize scheduler
         self.scheduler = AsyncIOScheduler()
         self.data_store = {
             'market_data': {},
             'news': {},
-            'sentiment': {}
+            'sentiment': {},
+            'events': {}
         }
         
     async def update_market_data(self):
@@ -92,11 +95,25 @@ class DataIngestionManager:
         except Exception as e:
             logger.error(f"Error updating news: {str(e)}")
             
+    async def update_events(self):
+        """Update event calendar."""
+        try:
+            await self.events.update_events(self.symbols)
+            self.data_store['events'] = {
+                'upcoming': self.events.get_upcoming_events(hours_ahead=48),
+                'high_impact': self.events.get_high_impact_events(),
+                'all_events': self.events.events
+            }
+            logger.info(f"Updated events calendar: {len(self.events.events)} events")
+        except Exception as e:
+            logger.error(f"Error updating events: {str(e)}")
+            
     async def update_all(self):
         """Update all data sources."""
         await asyncio.gather(
             self.update_market_data(),
-            self.update_news()
+            self.update_news(),
+            self.update_events()
         )
         
     def start(self):
