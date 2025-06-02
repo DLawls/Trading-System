@@ -9,6 +9,7 @@ from .signal_schema import TradingSignal, SignalType, SignalDirection, SignalStr
 from .signal_evaluator import SignalEvaluator, EvaluationConfig
 from .position_sizer import PositionSizer, PositionSizingConfig
 from .portfolio_allocator import PortfolioAllocator, AllocationConfig
+from .main import SignalGenerator
 
 __all__ = [
     'TradingSignal',
@@ -21,5 +22,6 @@ __all__ = [
     'PositionSizer',
     'PositionSizingConfig',
     'PortfolioAllocator',
-    'AllocationConfig'
+    'AllocationConfig',
+    'SignalGenerator'
 ] 

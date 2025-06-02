@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from enum import Enum
 import pandas as pd
 from loguru import logger
+from datetime import datetime
 
 
 class EventType(Enum):
@@ -34,6 +35,7 @@ class DetectedEvent:
     description: str
     keywords_matched: List[str]
     sentiment: Optional[str] = None
+    timestamp: Optional[datetime] = None  # When the event was detected/published
     metadata: Dict[str, Any] = None
 
 
@@ -235,6 +237,7 @@ class EventClassifier:
                         title=title,
                         description=content[:200] + "..." if len(content) > 200 else content,
                         keywords_matched=matched_keywords,
+                        timestamp=datetime.now(),
                         metadata={
                             'all_entities': entities,
                             'text_length': len(full_text)

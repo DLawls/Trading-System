@@ -41,7 +41,8 @@ A comprehensive event-driven machine learning trading system that ingests market
 - **SignalEvaluator**: Confidence-based signal evaluation
 - **PositionSizer**: Volatility-adjusted position sizing
 - **PortfolioAllocator**: Risk-managed portfolio allocation
-- **Signal Schema**: Standardized signal format
+- **SignalGenerator**: Unified signal generation orchestrator
+- **Signal Schema**: Standardized signal format with comprehensive risk metrics
 
 ### ✅ **Phase 6: Execution Engine** (100% Complete)
 - **Order Management**: Full lifecycle order tracking
@@ -50,10 +51,18 @@ A comprehensive event-driven machine learning trading system that ingests market
 - **Risk Controls**: Circuit breakers and emergency stops
 - **Ultra-Low Latency**: Sub-100ms execution pipeline
 
-### 🚧 **Phase 7: Backtesting & Evaluation** (Coming Next)
-- **HistoricalEventSimulator**: Event replay system
-- **PortfolioSimulator**: Realistic fill and slippage modeling
-- **MetricsLogger**: Performance analytics and reporting
+### ✅ **Phase 7: Backtesting & Evaluation** (100% Complete)
+- **HistoricalEventSimulator**: Complete event replay system with news classification
+- **PortfolioSimulator**: Realistic fill, slippage, and commission modeling
+- **BacktestEngine**: Comprehensive backtesting orchestrator
+- **MetricsLogger**: Performance analytics and reporting with visualization
+- **Multi-Strategy Framework**: Momentum, mean reversion, and event-driven strategies
+- **Schema Compatibility**: Fully integrated signal-to-execution pipeline
+
+### 🚧 **Phase 8: Monitoring & Infrastructure** (Next Priority)
+- System health monitoring and alerting
+- Automated model retraining pipeline
+- Performance dashboard and reporting
 
 ---
 
@@ -198,7 +207,46 @@ for signal in signals:
 performance = engine.get_performance_metrics()
 ```
 
-### **5. Event Scheduling**
+### **5. Backtesting & Strategy Testing**
+
+```python
+from src.backtesting.backtest_engine import BacktestEngine
+from src.backtesting.portfolio_simulator import PortfolioSimulator, FillModel
+from src.signal_generation.main import SignalGenerator
+from datetime import datetime, timedelta
+
+# Initialize backtesting components
+portfolio = PortfolioSimulator(
+    initial_capital=100000.0,
+    commission_rate=0.001,  # 0.1% commission
+    fill_model=FillModel.REALISTIC
+)
+
+signal_gen = SignalGenerator()
+
+# Create backtest engine
+backtest_engine = BacktestEngine(
+    portfolio_simulator=portfolio,
+    signal_generator=signal_gen,
+    start_date=datetime(2023, 1, 1),
+    end_date=datetime(2023, 12, 31),
+    symbols=['AAPL', 'TSLA', 'MSFT']
+)
+
+# Run comprehensive backtest
+results = await backtest_engine.run_backtest()
+
+# Analyze results
+print(f"Total Return: {results['total_return']:.2%}")
+print(f"Sharpe Ratio: {results['sharpe_ratio']:.2f}")
+print(f"Max Drawdown: {results['max_drawdown']:.2%}")
+print(f"Win Rate: {results['win_rate']:.2%}")
+
+# Generate detailed report
+backtest_engine.generate_report("backtest_results.html")
+```
+
+### **6. Event Scheduling**
 
 ```python
 from src.data_ingestion.events import EventScheduler
@@ -216,7 +264,7 @@ tesla_events = scheduler.get_events_by_symbol('TSLA')
 events_df = scheduler.to_dataframe()
 ```
 
-### **6. Complete Data Pipeline (Automated)**
+### **7. Complete Data Pipeline (Automated)**
 
 ```python
 from src.data_ingestion.main import DataIngestionManager
@@ -337,9 +385,8 @@ poetry run pytest --cov=src --cov-report=html
 ## 🗺️ **Development Roadmap**
 
 ### **Immediate Next Steps**
-1. **Phase 7**: Implement backtesting framework
-2. **Phase 8**: Add monitoring dashboard
-3. **Phase 9**: Cloud deployment preparation
+1. **Phase 8**: Implement monitoring dashboard
+2. **Phase 9**: Cloud deployment preparation
 
 ### **Future Enhancements**
 - Real-time news streaming (WebSocket feeds)

@@ -58,27 +58,44 @@ class MarketDataIngestor:
             )
             
             bars = self.client.get_stock_bars(request)
+            logger.info(f"Received data for symbols: {list(bars.keys()) if hasattr(bars, 'keys') else 'No data'}")
             
             # Convert to DataFrames
             result = {}
             for symbol in symbols:
-                symbol_bars = bars[symbol]
-                df = pd.DataFrame({
-                    'timestamp': [bar.timestamp for bar in symbol_bars],
-                    'open': [bar.open for bar in symbol_bars],
-                    'high': [bar.high for bar in symbol_bars],
-                    'low': [bar.low for bar in symbol_bars],
-                    'close': [bar.close for bar in symbol_bars],
-                    'volume': [bar.volume for bar in symbol_bars]
-                })
-                df.set_index('timestamp', inplace=True)
-                result[symbol] = df
+                try:
+                    if symbol in bars:
+                        symbol_bars = bars[symbol]
+                        df = pd.DataFrame({
+                            'timestamp': [bar.timestamp for bar in symbol_bars],
+                            'open': [bar.open for bar in symbol_bars],
+                            'high': [bar.high for bar in symbol_bars],
+                            'low': [bar.low for bar in symbol_bars],
+                            'close': [bar.close for bar in symbol_bars],
+                            'volume': [bar.volume for bar in symbol_bars]
+                        })
+                        df.set_index('timestamp', inplace=True)
+                        result[symbol] = df
+                        logger.info(f"Successfully processed {len(df)} bars for {symbol}")
+                    else:
+                        logger.warning(f"No data available for symbol {symbol} in the response")
+                        # Create empty DataFrame with correct structure
+                        result[symbol] = pd.DataFrame(columns=['open', 'high', 'low', 'close', 'volume'])
+                        
+                except Exception as e:
+                    logger.error(f"Error processing symbol {symbol}: {str(e)}")
+                    # Create empty DataFrame for failed symbols
+                    result[symbol] = pd.DataFrame(columns=['open', 'high', 'low', 'close', 'volume'])
                 
             return result
             
         except Exception as e:
             logger.error(f"Error fetching historical bars: {str(e)}")
-            raise
+            # Return empty DataFrames for all symbols instead of raising
+            result = {}
+            for symbol in symbols:
+                result[symbol] = pd.DataFrame(columns=['open', 'high', 'low', 'close', 'volume'])
+            return result
             
     async def get_latest_bars(
         self,

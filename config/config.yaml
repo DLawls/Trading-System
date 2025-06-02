@@ -10,7 +10,7 @@ alpaca:
 # Data Ingestion Settings
 data_ingestion:
   market_data:
-    symbols: ["AAPL", "MSFT", "GOOGL", "AMZN", "META"]  # Example symbols
+    symbols: ["AAPL", "MSFT", "GOOGL", "AMZN", "META", "SPY", "QQQ", "IBM", "GE"]  # Use IEX-available symbols
     intervals: ["1m", "5m", "15m", "1h"]
     max_retries: 3
     retry_delay: 5  # seconds

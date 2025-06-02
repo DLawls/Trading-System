@@ -257,6 +257,9 @@ class HistoricalEventSimulator:
                 )
                 
                 for detected_event in detected_events:
+                    # Set the timestamp to match the news article
+                    detected_event.timestamp = timestamp
+                    
                     events.append(SimulationEvent(
                         timestamp=timestamp + timedelta(seconds=1),  # Slight delay for classification
                         event_type='event_detection',
@@ -363,7 +366,7 @@ class HistoricalEventSimulator:
             cutoff_time = event.timestamp - timedelta(days=self.lookback_days)
             self.state.detected_events = [
                 evt for evt in self.state.detected_events
-                if evt.timestamp >= cutoff_time
+                if hasattr(evt, 'timestamp') and evt.timestamp >= cutoff_time
             ]
     
     def _has_sufficient_data(self) -> bool:

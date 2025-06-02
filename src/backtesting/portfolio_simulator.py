@@ -14,7 +14,7 @@ from enum import Enum
 from loguru import logger
 
 from ..signal_generation.schemas import TradingSignal, SignalAction
-from ..execution_engine.schemas import Order, OrderType, OrderStatus, OrderSide
+from ..execution_engine.order_schemas import Order, OrderType, OrderStatus, OrderSide
 
 
 class FillModel(Enum):
