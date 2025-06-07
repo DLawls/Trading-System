@@ -396,22 +396,17 @@ poetry run pytest --cov=src --cov-report=html
 
 ---
 
-## 🤝 **Contributing**
+### 🔧 **ChatGPT Improvement Checklist**
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
----
-
-## 📄 **License**
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+- [ ] Adopt the recommended project layout for clearer module separation
+- [ ] Replace synchronous news fetching with `aiohttp` or `httpx` and add caching via `aiocache`
+- [ ] Wrap FinBERT and VADER models behind a `SentimentAnalyzer` interface with a `model_loader.py`
+- [ ] Use spaCy for NER with ticker resolution via `yfinance` and caching in `duckdb` or SQLite
+- [ ] Add pluggable signal generation rules and risk validation for Alpaca execution
+- [ ] Persist backtest results to JSON/CSV or SQLite and explore `backtrader` or `vectorbt`
+- [ ] Integrate pre-commit hooks (black, isort, flake8, mypy) and GitHub Actions CI
+- [ ] Validate configuration with dotenv + pydantic and consider hydra/omegaconf
+- [ ] Replace argparse with `typer` or `rich` for an improved CLI experience
 
 ---
 
-## ⚠️ **Disclaimer**
-
-This software is for educational and research purposes only. Trading involves risk and you should never trade with money you cannot afford to lose. Past performance does not guarantee future results. Always do your own research and consider consulting with a financial advisor before making investment decisions. 
