@@ -170,4 +170,18 @@ Focus on implementing monitoring infrastructure and preparing for paper trading 
 
 ---
 
+## 🔧 ChatGPT Improvement Checklist
+
+- [ ] Restructure repository to follow the recommended module layout
+- [ ] Use `aiohttp` or `httpx` with `aiocache` for news ingestion
+- [ ] Add `model_loader.py` and unified `SentimentAnalyzer` interface
+- [ ] Integrate spaCy NER with ticker lookup via `yfinance` and caching in `duckdb` or SQLite
+- [ ] Implement risk validation rules for Alpaca execution
+- [ ] Persist backtest results and evaluate integration with `backtrader` or `vectorbt`
+- [ ] Add pre-commit hooks and CI workflow (black, isort, flake8, mypy)
+- [ ] Validate configs using `pydantic` and consider hydra/omegaconf
+- [ ] Replace argparse-based CLI with `typer` or `rich`
+
+---
+
 This checklist guides the full lifecycle of the D-Laws Trading System, from idea to production.
